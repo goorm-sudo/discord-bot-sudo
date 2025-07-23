@@ -1,4 +1,4 @@
-# discord-sudo
+# discord-bot-sudo
 
 To install dependencies:
 
