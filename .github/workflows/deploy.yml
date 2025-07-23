@@ -1,0 +1,23 @@
+name: Deploy to Oracle VM with PM2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Execute remote SSH commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.OCI_HOST }}
+          username: ${{ secrets.OCI_USERNAME }}
+          key: ${{ secrets.OCI_KEY }}
+          script: |
+            cd /home/teamsudo/discord-bot-sudo
+            git pull origin main
+            bun install
+            pm2 start ecosystem.config.cjs --only sudo-bot-prod
