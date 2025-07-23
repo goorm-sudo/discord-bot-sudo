@@ -1,0 +1,22 @@
+{
+  "name": "discord-bot-sudo",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@octokit/webhooks-types": "^7.6.1",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "deploy-commands": "bun run src/deploy-commands.ts"
+  },
+  "dependencies": {
+    "@google/genai": "^1.10.0",
+    "crypto": "^1.0.1",
+    "discord.js": "^14.21.0"
+  }
+}
