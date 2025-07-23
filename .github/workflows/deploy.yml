@@ -20,5 +20,6 @@ jobs:
           script: |
             cd /home/teamsudo/discord-bot-sudo
             git pull origin main
+            source ~/.bashrc
             bun install
             pm2 start ecosystem.config.cjs --only sudo-bot-prod
