@@ -22,4 +22,5 @@ jobs:
             git pull origin main
             source ~/.setup_deploy
             bun install
+            NODE_ENV=production bun run deploy-commands
             pm2 start ecosystem.config.cjs --only sudo-bot-prod
