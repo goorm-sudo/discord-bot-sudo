@@ -87,6 +87,8 @@ export class WebhookService {
   private async handleIssuesEvent(payload: IssuesEvent) {}
 
   private async handlePullRequestEvent(payload: PullRequestEvent) {
+    const now = new Date();
+    const hour = now.getHours();
     const channel = await this.client.channels.fetch(process.env.GITHUB_WEBHOOK_CHANNEL!);
     if (!(channel instanceof TextChannel)) return;
     if (payload.action === 'opened' || payload.action === 'reopened') {
@@ -112,6 +114,7 @@ export class WebhookService {
           }
         });
       });
+      if (hour >= 0 && hour <= 7) return;
       channel.send({
         embeds: [
           {
@@ -148,6 +151,7 @@ export class WebhookService {
         ]
       });
     } else if (payload.action === 'closed') {
+      if (hour >= 0 && hour <= 7) return;
       channel.send({
         embeds: [
           {
