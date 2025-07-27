@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Events, GuildMember } from "discord.js";
+import { Client, GatewayIntentBits, Events, GuildMember, ActivityType } from "discord.js";
 import { commands } from "./commands";
 import { AIService } from "./service/ai.service";
 import { WebhookService } from "./service/webhook.service";
@@ -17,6 +17,8 @@ const aiService = AIService.getInstance();
 const webhookService = new WebhookService(client);
 
 client.once(Events.ClientReady, (client) => {
+  botStatusChange();
+  setInterval(botStatusChange, 5 * 60 * 1000);
   console.log(`Discord bot ready! Logged in as ${client.user?.tag}`);
 });
 
@@ -59,6 +61,29 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 function getDisplayName(member: GuildMember) {
   return member.nickname || member.displayName || member.user.username
+}
+
+function botStatusChange() {
+  const now = new Date();
+  const hour = now.getHours();
+
+  if (hour >= 0 && hour <= 7) {
+    client.user?.setPresence({
+      status: 'idle',
+      activities: [{
+        name: '자는 중... 💤',
+        type: ActivityType.Custom,
+      }]
+    })
+  } else {
+    client.user?.setPresence({
+      status: 'online',
+      activities: [{
+        name: '활동 중! 🔥',
+        type: ActivityType.Custom,
+      }]
+    })
+  }
 }
 
 client.login(DISCORD_TOKEN);
